@@ -122,7 +122,7 @@ comments_provider: gitalk
 # https://github.com/gitalk/gitalk#install
 gitalk:
   owner: Rogersjgls233233
-  repo: 玖糕老师的异度空间
+  repo: Rogersjgls233233.github.io
   clientID: fcbe34f089f12d66e256
   clientSecret: c9d437abbfb4d0c7649fe143d12aba2430b38e95
 # 在使用其它评论组件时可点击显示 Disqus
