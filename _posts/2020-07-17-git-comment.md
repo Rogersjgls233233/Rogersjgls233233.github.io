@@ -1,4 +1,4 @@
-\---
+---
 
 layout: post
 
@@ -10,17 +10,17 @@ description: Git常用操作总结
 
 keywords: git
 
-\---
+---
 
-在进入公司实习之前，一直用的都是GitHub desktop可视化工具，从来没用过git命令，然后实习以后发现公司并不用GitHub，所以被迫学起git的常用命令，两个星期以来也总结了一下几个常用的命令：
+在进入公司实习之前，一直用的都是 GitHub desktop 可视化工具，从来没用过 git 命令，然后实习以后发现公司并不用 GitHub，所以被迫学起 git 的常用命令，两个星期以来也总结了一下几个常用的命令：
 
-`git config -l`查看git配置信息
+`git config -l`查看 git 配置信息
 
 `git checkout-b <branch>`从当前分支创建并转入新分支
 
 `git status`查看当前分支工作区和暂存区的状态
 
-`git diff`diff文件的修改（很重要！）
+`git diff`diff 文件的修改（很重要！）
 
 `git log`查看提交记录
 
@@ -48,7 +48,7 @@ keywords: git
 
 `git add .`缓存所有追踪的更改文件
 
-`git clean -f`删除当前目录下所有没有track过的文件
+`git clean -f`删除当前目录下所有没有 track 过的文件
 
 `git commit -m ""`提交缓存区的代码
 
@@ -56,4 +56,4 @@ keywords: git
 
 `git merge <branch>`合并分支
 
-*可能随实际开发会碰到更多的情况，会及时更新*
+_可能随实际开发会碰到更多的情况，会及时更新_
