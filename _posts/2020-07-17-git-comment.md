@@ -1,15 +1,9 @@
 ---
-
 layout: post
-
-title:Git常用操作总结
-
-categories:front-end
-
+title: Git常用操作总结
+categories: front-end
 description: Git常用操作总结
-
 keywords: git
-
 ---
 
 在进入公司实习之前，一直用的都是 GitHub desktop 可视化工具，从来没用过 git 命令，然后实习以后发现公司并不用 GitHub，所以被迫学起 git 的常用命令，两个星期以来也总结了一下几个常用的命令：
