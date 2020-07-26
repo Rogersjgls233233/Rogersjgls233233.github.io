@@ -1,17 +1,10 @@
 ---
-
 layout: post
-
 title: Vue.nextTick
-
 categories:front-end
-
 description: Vue.nextTick
-
 keywords: vue
 ---
-
-
 
 在公司实习的项目中遇到了一个叫做`Vue.nextTick()`的东西，感觉有点意思，想了解一下。
 
@@ -59,14 +52,14 @@ new Vue({
 
 点击后：![image-20200726230945283](2020-07-26-vue-nextTick.assets/image-20200726230945283.png)
 
-从图中可以得知：msg1和msg3显示的内容还是变换之前的，而msg2显示的内容是变换之后的。其根本原因是因为Vue中DOM更新是异步的
+从图中可以得知：msg1 和 msg3 显示的内容还是变换之前的，而 msg2 显示的内容是变换之后的。其根本原因是因为 Vue 中 DOM 更新是异步的
 
 ### 2.应用场景
 
-- 在Vue生命周期的`created()`钩子函数进行的DOM操作一定要放在`Vue.nextTick()`的回调函数中
-- 在数据变化后要执行的某个操作，而这个操作需要使用随数据改变而改变的DOM结构的时候，这个操作都应该放进`Vue.nextTick()`的回调函数中。
+- 在 Vue 生命周期的`created()`钩子函数进行的 DOM 操作一定要放在`Vue.nextTick()`的回调函数中
+- 在数据变化后要执行的某个操作，而这个操作需要使用随数据改变而改变的 DOM 结构的时候，这个操作都应该放进`Vue.nextTick()`的回调函数中。
 
-解释：在`created()`钩子函数执行的时候DOM 其实并未进行任何渲染，而此时进行DOM操作无异于徒劳，所以此处一定要将DOM操作的js代码放进`Vue.nextTick()`的回调函数中。与之对应的就是`mounted()`钩子函数，因为该钩子函数执行时所有的DOM挂载和渲染都已完成，此时在该钩子函数中进行任何DOM操作都不会有问题 。
+解释：在`created()`钩子函数执行的时候 DOM 其实并未进行任何渲染，而此时进行 DOM 操作无异于徒劳，所以此处一定要将 DOM 操作的 js 代码放进`Vue.nextTick()`的回调函数中。与之对应的就是`mounted()`钩子函数，因为该钩子函数执行时所有的 DOM 挂载和渲染都已完成，此时在该钩子函数中进行任何 DOM 操作都不会有问题 。
 
 官方文档中这样说道：
 
@@ -76,7 +69,7 @@ new Vue({
 
 ### 3.机制
 
-其实官方的解释已经说明了一个问题：**Vue不是数据发生变化后DOM立即变化，而是通过一定的策略进行DOM更新。即异步更新**
+其实官方的解释已经说明了一个问题：**Vue 不是数据发生变化后 DOM 立即变化，而是通过一定的策略进行 DOM 更新。即异步更新**
 
 （1）所有**同步任务**都在主线程上执行，形成一个执行栈（execution context stack）。
 （2）主线程之外，还存在一个**“任务队列”（task queue）**。只要**异步任务有了运行结果**，就在”任务队列”之中**放置**一个事件。
@@ -91,14 +84,14 @@ new Vue({
 
 事件循环过程如下：
 
-- 第一个tick（上图的第一个黑方块，即本次更新循环）
-  - 首先修改数据，这是同步的任务。同一事件循环的所有同步任务都在主线程上执行，形成一个执行栈，此时仍未涉及DOM
-  - 侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个watcher被多次的触发，只会被推入到队列中一次。
-- 第二个tick（上图的第二个黑方块，即’下次更新循环’）
-  - 同步任务执行完毕，开始执行异步watcher队列的任务，更新DOM。Vue在内部尝试对异步队列使用原生的`Promise.then()`和`MessageChannel`方法，如果环境不支持，会使用`setTimeout(fn,0)`代替。
-- 第三个tick（最后一个方块）
-  - 此时便是‘下次DOM更新循环结束后’
-  - 此时可以通过`Vue.nextTick`获取到改变之后的DOM。
+- 第一个 tick（上图的第一个黑方块，即本次更新循环）
+  - 首先修改数据，这是同步的任务。同一事件循环的所有同步任务都在主线程上执行，形成一个执行栈，此时仍未涉及 DOM
+  - 侦听到数据变化，Vue 将开启一个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个 watcher 被多次的触发，只会被推入到队列中一次。
+- 第二个 tick（上图的第二个黑方块，即’下次更新循环’）
+  - 同步任务执行完毕，开始执行异步 watcher 队列的任务，更新 DOM。Vue 在内部尝试对异步队列使用原生的`Promise.then()`和`MessageChannel`方法，如果环境不支持，会使用`setTimeout(fn,0)`代替。
+- 第三个 tick（最后一个方块）
+  - 此时便是‘下次 DOM 更新循环结束后’
+  - 此时可以通过`Vue.nextTick`获取到改变之后的 DOM。
 
 ### 4.源码小解析
 
@@ -107,16 +100,16 @@ new Vue({
  * Defer a task to execute it asynchronously.
  */
 export const nextTick = (function () {
-  const callbacks = []
-  let pending = false
-  let timerFunc
+  const callbacks = [];
+  let pending = false;
+  let timerFunc;
 
-  function nextTickHandler () {
-    pending = false
-    const copies = callbacks.slice(0)
-    callbacks.length = 0
+  function nextTickHandler() {
+    pending = false;
+    const copies = callbacks.slice(0);
+    callbacks.length = 0;
     for (let i = 0; i < copies.length; i++) {
-      copies[i]()
+      copies[i]();
     }
   }
 
@@ -128,94 +121,98 @@ export const nextTick = (function () {
   // Promise is available, we will use it:
   /* istanbul ignore if */
   if (typeof Promise !== 'undefined' && isNative(Promise)) {
-    var p = Promise.resolve()
-    var logError = err => { console.error(err) }
+    var p = Promise.resolve();
+    var logError = (err) => {
+      console.error(err);
+    };
     timerFunc = () => {
-      p.then(nextTickHandler).catch(logError)
+      p.then(nextTickHandler).catch(logError);
       // in problematic UIWebViews, Promise.then doesn't completely break, but
       // it can get stuck in a weird state where callbacks are pushed into the
       // microtask queue but the queue isn't being flushed, until the browser
       // needs to do some other work, e.g. handle a timer. Therefore we can
       // "force" the microtask queue to be flushed by adding an empty timer.
-      if (isIOS) setTimeout(noop)
-    }
-  } else if (!isIE && typeof MutationObserver !== 'undefined' && (
-    isNative(MutationObserver) ||
-    // PhantomJS and iOS 7.x
-    MutationObserver.toString() === '[object MutationObserverConstructor]'
-  )) {
+      if (isIOS) setTimeout(noop);
+    };
+  } else if (
+    !isIE &&
+    typeof MutationObserver !== 'undefined' &&
+    (isNative(MutationObserver) ||
+      // PhantomJS and iOS 7.x
+      MutationObserver.toString() === '[object MutationObserverConstructor]')
+  ) {
     // use MutationObserver where native Promise is not available,
     // e.g. PhantomJS, iOS7, Android 4.4
-    var counter = 1
-    var observer = new MutationObserver(nextTickHandler)
-    var textNode = document.createTextNode(String(counter))
+    var counter = 1;
+    var observer = new MutationObserver(nextTickHandler);
+    var textNode = document.createTextNode(String(counter));
     observer.observe(textNode, {
-      characterData: true
-    })
+      characterData: true,
+    });
     timerFunc = () => {
-      counter = (counter + 1) % 2
-      textNode.data = String(counter)
-    }
+      counter = (counter + 1) % 2;
+      textNode.data = String(counter);
+    };
   } else {
     // fallback to setTimeout
     /* istanbul ignore next */
     timerFunc = () => {
-      setTimeout(nextTickHandler, 0)
-    }
+      setTimeout(nextTickHandler, 0);
+    };
   }
 
-  return function queueNextTick (cb?: Function, ctx?: Object) {
-    let _resolve
+  return function queueNextTick(cb?: Function, ctx?: Object) {
+    let _resolve;
     callbacks.push(() => {
       if (cb) {
         try {
-          cb.call(ctx)
+          cb.call(ctx);
         } catch (e) {
-          handleError(e, ctx, 'nextTick')
+          handleError(e, ctx, 'nextTick');
         }
       } else if (_resolve) {
-        _resolve(ctx)
+        _resolve(ctx);
       }
-    })
+    });
     if (!pending) {
-      pending = true
-      timerFunc()
+      pending = true;
+      timerFunc();
     }
     if (!cb && typeof Promise !== 'undefined') {
       return new Promise((resolve, reject) => {
-        _resolve = resolve
-      })
+        _resolve = resolve;
+      });
     }
-  }
-})()
+  };
+})();
 ```
 
 其中`nextTickHandler()`函数用来执行`callbacks`里存储的所有回调函数。
 
 接下来是将触发方式赋值给`timerFunc`。
 
-- 先判断是否原生支持promise，如果支持，则利用promise来触发执行回调函数；
-- 否则，如果支持MutationObserver，则实例化一个观察者对象，观察文本节点发生变化时，触发执行所有回调函数。
-- 如果都不支持，则利用setTimeout设置延时为0。
+- 先判断是否原生支持 promise，如果支持，则利用 promise 来触发执行回调函数；
+- 否则，如果支持 MutationObserver，则实例化一个观察者对象，观察文本节点发生变化时，触发执行所有回调函数。
+- 如果都不支持，则利用 setTimeout 设置延时为 0。
 
 #### 这里有一个新名词：MutationObserver
 
-`MutationObserver`是HTML5中的新API，是个用来监视DOM变动的接口。他能监听一个DOM对象上发生的子节点删除、属性修改、文本内容修改等等。
+`MutationObserver`是 HTML5 中的新 API，是个用来监视 DOM 变动的接口。他能监听一个 DOM 对象上发生的子节点删除、属性修改、文本内容修改等等。
 
 用的时候要绑个回调函数：
 
 ```js
-var domTarget = 你想要监听的dom节点
-var mo = new MutationObserver(callback)
+var domTarget = 你想要监听的dom节点;
+var mo = new MutationObserver(callback);
 mo.observe(domTarget, {
-      characterData: true //说明监听文本内容的修改。
-})
+  characterData: true, //说明监听文本内容的修改。
+});
 ```
 
 ![image-20200726232538728](2020-07-26-vue-nextTick.assets/image-20200726232538728.png)
 
-在`nextTick`中 `MutationObserver`的作用就如上图所示。在监听到DOM更新后，调用回调函数。
+在`nextTick`中 `MutationObserver`的作用就如上图所示。在监听到 DOM 更新后，调用回调函数。
 
-其实使用 `MutationObserver`的原因就是 `nextTick`想要一个异步API，用来在当前的同步代码执行完毕后，执行想执行的异步回调，包括`Promise`和 `setTimeout`都是基于这个原因。
+其实使用 `MutationObserver`的原因就是 `nextTick`想要一个异步 API，用来在当前的同步代码执行完毕后，执行想执行的异步回调，包括`Promise`和 `setTimeout`都是基于这个原因。
 
 但是深入的话，就要涉及到同步任务和异步任务（包括弘任务和微任务）了。
