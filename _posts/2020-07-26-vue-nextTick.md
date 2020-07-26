@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Vue.nextTick
-categories:front-end
+categories: front-end
 description: Vue.nextTick
 keywords: vue
 ---
