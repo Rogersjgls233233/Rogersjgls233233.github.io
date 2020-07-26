@@ -48,9 +48,9 @@ new Vue({
 });
 ```
 
-点击前：![image-20200726230758677](2020-07-26-vue-nextTick.assets/image-20200726230758677.png)
+<img src="./2020-07-26-vue-nextTick.assets/image-20200726230758677.png"></img>
 
-点击后：![image-20200726230945283](2020-07-26-vue-nextTick.assets/image-20200726230945283.png)
+<img src="./2020-07-26-vue-nextTick.assets/image-20200726230945283.png"></img>
 
 从图中可以得知：msg1 和 msg3 显示的内容还是变换之前的，而 msg2 显示的内容是变换之后的。其根本原因是因为 Vue 中 DOM 更新是异步的
 
@@ -76,11 +76,11 @@ new Vue({
 （3）一旦”执行栈”中的所有**同步任务执行完毕**，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。
 （4）主线程不断**重复**上面的第三步。
 
-![image-20200726231727714](2020-07-26-vue-nextTick.assets/image-20200726231727714.png)
+<img src="./2020-07-26-vue-nextTick.assets/image-20200726231727714.png"></img>
 
 #### 还有一个例子可以说明问题：
 
-![image-20200726231814282](2020-07-26-vue-nextTick.assets/image-20200726231814282.png)
+<img src="./2020-07-26-vue-nextTick.assets/image-20200726231814282.png"></img>
 
 事件循环过程如下：
 
@@ -209,7 +209,7 @@ mo.observe(domTarget, {
 });
 ```
 
-![image-20200726232538728](2020-07-26-vue-nextTick.assets/image-20200726232538728.png)
+<img src="./2020-07-26-vue-nextTick.assets/image-20200726232538728.png"></img>
 
 在`nextTick`中 `MutationObserver`的作用就如上图所示。在监听到 DOM 更新后，调用回调函数。
 
